@@ -1,9 +1,12 @@
 import { useState } from "react";
 import Option from "./components/Option";
+import type { ResultProps } from "./components/Result";
+import { useNavigate } from "react-router-dom";
 
 
 export type QuizProps = {
     quizData: QuizData
+    onQuizFinished: (data: ResultProps) => void
 }
 
 
@@ -19,9 +22,12 @@ export type QuizQuestionData = {
 }
 
 
-export default function Quiz({ quizData }: QuizProps) {
+export default function Quiz({ quizData, onQuizFinished }: QuizProps) {
+    const navigate = useNavigate()
+
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [questionCompleted, setQuestionCompleted] = useState<boolean>(false)
+    const [correctCount, setCorrectCount] = useState<number>(0)
 
 
     const currentQuiz = quizData.allQuestions[currentIndex]
@@ -35,11 +41,25 @@ export default function Quiz({ quizData }: QuizProps) {
     }
 
 
+    const onOptionSelected = (isCorrect: boolean): void => {
+        if (isCorrect) {
+            setCorrectCount(correctCount + 1)
+        }
+
+        setQuestionCompleted(true)
+    }
+
+
     const showNextQuestion = () => {
         setQuestionCompleted(false)
 
         if (currentIndex >= quizData.allQuestions.length - 1) {
-            // Show Result
+            onQuizFinished({
+                total: quizData.allQuestions.length,
+                correct: correctCount
+            })
+
+            navigate("/result")
             return
         }
 
@@ -66,7 +86,7 @@ export default function Quiz({ quizData }: QuizProps) {
                             key={`q-${currentQuiz.question}-op-${op}-idx-${index}`}
                             text={op}
                             isChoiceCorrect={isChoiceCorrect}
-                            setQuestionCompleted={setQuestionCompleted}
+                            onOptionSelected={onOptionSelected}
                             questionCompleted={questionCompleted}
                         />
                     ))}

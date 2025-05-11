@@ -3,12 +3,12 @@ import { useEffect, useState } from "react"
 type OptionProps = {
     text: string
     isChoiceCorrect: (choice: string) => boolean
+    onOptionSelected: (isCorrect: boolean) => void
     questionCompleted: boolean
-    setQuestionCompleted: (questionCompleted: boolean) => void
 }
 
 
-export default function Option({ text, isChoiceCorrect, questionCompleted, setQuestionCompleted }: OptionProps) {
+export default function Option({ text, isChoiceCorrect, onOptionSelected, questionCompleted }: OptionProps) {
     const [opState, setOpState] = useState<"notSelected" | "right" | "wrong">("notSelected")
 
 
@@ -25,7 +25,7 @@ export default function Option({ text, isChoiceCorrect, questionCompleted, setQu
         const result: boolean = isChoiceCorrect(text)
 
         setOpState(result ? "right" : "wrong")
-        setQuestionCompleted(true)
+        onOptionSelected(result)
     }
 
 
