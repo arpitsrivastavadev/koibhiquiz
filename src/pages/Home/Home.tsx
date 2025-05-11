@@ -1,19 +1,36 @@
 import { useState } from "react"
 import { FiSend } from "react-icons/fi"
+import { useNavigate } from "react-router-dom"
 
 export default function Home() {
+    const navigate = useNavigate()
+
     const [generating, setGenerating] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
 
 
-    const handleStartQuiz = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleStartQuiz = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         setGenerating(true)
+        setError(null)
+
+        try {
+            await new Promise(res => setTimeout(res, 2000))
+            navigate("/quiz")
+        }
+        catch (e) {
+            const errMsg: string = e instanceof Error ? e.message : String(e)
+            setError(errMsg)
+        }
+        finally {
+            setGenerating(false)
+        }
     }
 
 
     return (
-        <div className="flex flex-col justify-center items-center bg-bg w-full h-full p-4">
+        <div className="flex flex-col gap-6 justify-center items-center bg-bg w-full h-full p-4">
 
             <form
                 className="gap-4 flex flex-col w-[80%] sm:flex-row sm:w-[50%]"
@@ -24,6 +41,7 @@ export default function Home() {
                     type="text"
                     placeholder="Quiz topic?"
                     disabled={generating}
+                    required
                 />
 
                 <button
@@ -39,6 +57,10 @@ export default function Home() {
                     </p>
                 </button>
             </form>
+
+            <p className="text-error">
+                {error}
+            </p>
         </div>
     )
 }

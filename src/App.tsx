@@ -4,6 +4,8 @@ import Home from './pages/Home/Home'
 import { useEffect, useState } from 'react'
 import Header from './components/Header'
 import NotFound from './pages/NotFound/NotFound'
+import Quiz from './pages/Quiz/Quiz'
+import { quizzes } from './utils/dummyData'
 
 
 export const AppThemes = ["light", "dark"] as const
@@ -24,12 +26,12 @@ function App() {
     
 
     return (
-        <div className={`${theme} font-poppins text-text w-full h-screen`}>
+        <div className={`${theme} font-poppins bg-bg text-text w-full h-screen`}>
             <Header setTheme={setTheme} />
 
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/quiz" element={<h1>Quiz</h1>} />
+                <Route path="/quiz" element={<Quiz quizData={quizzes} />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
