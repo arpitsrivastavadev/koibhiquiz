@@ -1,1 +1,73 @@
+/* Thanks to ChatGPT for defining common color properties for both light and dark themes */
+
 @import "tailwindcss";
+
+
+@theme {
+    /* Fonts */
+    --font-poppins: Poppins, sans-serif;
+
+    /* === Primary Brand Colors === */
+    --color-primary-500: rgb(245, 245, 245);  /* Default button/bg */
+    --color-primary-600: rgb(230, 230, 230);  /* Hover state */
+    --color-primary-700: rgb(210, 210, 210);  /* Active state */
+
+    /* === Accent Colors (for links, highlights, badges, etc.) === */
+    --color-accent: rgb(99, 102, 241);        /* Link / accent highlight */
+    --color-accent-hover: rgb(79, 70, 229);   /* Accent on hover */
+
+    /* === Backgrounds === */
+    --color-bg: rgb(255, 255, 255);           /* Main background */
+    --color-bg-muted: rgb(245, 245, 245);     /* Sections, cards, etc. */
+    --color-bg-inverted: rgb(17, 24, 39);     /* For dark text areas (e.g. footers) */
+
+    /* === Borders === */
+    --color-border: rgb(229, 231, 235);       /* Default border */
+    --color-border-muted: rgb(243, 244, 246); /* For light separators */
+
+    /* === Text Colors === */
+    --color-text: rgb(17, 24, 39);            /* Primary text */
+    --color-text-muted: rgb(107, 114, 128);   /* Secondary text */
+    --color-text-inverted: rgb(255, 255, 255);/* Text on dark backgrounds */
+
+    /* === Status Colors === */
+    --color-success: rgb(34, 197, 94);        /* Success messages/icons */
+    --color-error: rgb(239, 68, 68);          /* Errors, alerts */
+    --color-warning: rgb(251, 191, 36);       /* Warnings */
+    --color-info: rgb(59, 130, 246);          /* Info messages */
+
+    /* === Shadows === */
+    --shadow-default: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+@layer base {
+  .dark {
+    --color-primary-500: rgb(30, 30, 30);
+    --color-primary-600: rgb(50, 50, 50);
+    --color-primary-700: rgb(70, 70, 70);
+
+    --color-accent: rgb(129, 140, 248);
+    --color-accent-hover: rgb(99, 102, 241);
+
+    --color-bg: rgb(17, 17, 17);
+    --color-bg-muted: rgb(34, 34, 34);
+    --color-bg-inverted: rgb(255, 255, 255);
+
+    --color-border: rgb(55, 65, 81);
+    --color-border-muted: rgb(75, 85, 99);
+
+    --color-text: rgb(235, 235, 235);
+    --color-text-muted: rgb(160, 160, 160);
+    --color-text-inverted: rgb(0, 0, 0);
+
+    --color-success: rgb(34, 197, 94);
+    --color-error: rgb(239, 68, 68);
+    --color-warning: rgb(251, 191, 36);
+    --color-info: rgb(59, 130, 246);
+
+    --shadow-default: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  }
+}
