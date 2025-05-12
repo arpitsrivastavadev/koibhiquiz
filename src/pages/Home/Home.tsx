@@ -2,30 +2,17 @@ import { useState } from "react"
 import { FiSend } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 
+
 export default function Home() {
     const navigate = useNavigate()
 
-    const [generating, setGenerating] = useState<boolean>(false)
-    const [error, setError] = useState<string | null>(null)
+    const [prompt, setPrompt] = useState<string>("")
 
 
     const handleStartQuiz = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        setGenerating(true)
-        setError(null)
-
-        try {
-            await new Promise(res => setTimeout(res, 2000))
-            navigate("/quiz")
-        }
-        catch (e) {
-            const errMsg: string = e instanceof Error ? e.message : String(e)
-            setError(errMsg)
-        }
-        finally {
-            setGenerating(false)
-        }
+        navigate(`/quiz?prompt=${prompt}`)
     }
 
 
@@ -40,13 +27,13 @@ export default function Home() {
                     className="w-full text-xl rounded-lg px-6 py-3 outline-0 border-2 border-primary-500 hover:border-primary-600 active:border-primary-700 focus:border-primary-700 disabled:bg-bg-muted disabled:border-border-muted disabled:text-text-muted disabled:cursor-not-allowed"
                     type="text"
                     placeholder="Quiz topic?"
-                    disabled={generating}
+                    value={prompt}
+                    onChange={e => setPrompt(e.target.value)}
                     required
                 />
 
                 <button
                     className="sm:p-6 p-4 flex justify-center items-center gap-4 rounded-xl bg-primary-500 hover:bg-primary-600 active:bg-primary-700 disabled:bg-bg-muted disabled:text-text-muted disabled:cursor-not-allowed"
-                    disabled={generating}
                 >
                     <FiSend
                         size={18}
@@ -57,10 +44,6 @@ export default function Home() {
                     </p>
                 </button>
             </form>
-
-            <p className="text-error">
-                {error}
-            </p>
         </div>
     )
 }

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
+import { ENVS } from "../../utils/config";
 
 
 export type QuizProps = {
-    quizData: QuizData
     onQuizFinished: (data: ResultProps) => void
 }
 
@@ -22,15 +23,58 @@ export type QuizQuestionData = {
 }
 
 
-export default function Quiz({ quizData, onQuizFinished }: QuizProps) {
+export default function Quiz({ onQuizFinished }: QuizProps) {
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+
+    const [prompt, setPrompt] = useState<string>("")
+    const [quizData, setQuizData] = useState<QuizData | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [questionCompleted, setQuestionCompleted] = useState<boolean>(false)
     const [correctCount, setCorrectCount] = useState<number>(0)
 
 
-    const currentQuiz = quizData.allQuestions[currentIndex]
+    const currentQuiz = quizData?.allQuestions[currentIndex] || null
+
+
+    useEffect(() => {
+        if (searchParams.get("prompt")) {
+            setPrompt(searchParams.get("prompt")!)
+        }
+        else {
+            setError("Unable to generate quiz, no prompt found.")
+        }
+
+    }, [searchParams])
+
+
+    useEffect(() => {
+        const generateQuiz = async () => {
+            setError(null)
+
+            try {
+                const response = await axios.post(`${ENVS.BACKEND_URL}/api/quiz`, {
+                    prompt: prompt
+                })
+
+                const qData: QuizData = {
+                    allQuestions: response.data.quiz
+                }
+
+                setQuizData(qData)
+            }
+            catch (e) {
+                const errMsg: string = e instanceof Error ? e.message : String(e)
+                setError(errMsg)
+            }
+        }
+
+        if (prompt !== "")
+            generateQuiz()
+
+    }, [prompt])
 
 
     const isChoiceCorrect = (choice: string): boolean => {
@@ -53,9 +97,9 @@ export default function Quiz({ quizData, onQuizFinished }: QuizProps) {
     const showNextQuestion = () => {
         setQuestionCompleted(false)
 
-        if (currentIndex >= quizData.allQuestions.length - 1) {
+        if (currentIndex >= quizData!.allQuestions.length - 1) {
             onQuizFinished({
-                total: quizData.allQuestions.length,
+                total: quizData!.allQuestions.length,
                 correct: correctCount
             })
 
@@ -67,9 +111,27 @@ export default function Quiz({ quizData, onQuizFinished }: QuizProps) {
     }
 
 
-    if (currentQuiz === null)
-        return <></>
-    
+    if (currentQuiz === null || quizData === null) {
+        return (
+            <div className="bg-bg w-full h-full flex justify-center items-center">
+                {
+                    error ?
+                        <div className="flex flex-col gap-4 items-center">
+                            <p className="text-xl text-error">{error}</p>
+                            <Link
+                                className="text-center px-8 py-4 rounded-xl bg-primary-500 hover:bg-primary-600 active:bg-primary-700"
+                                to="/"
+                            >
+                                Back To Home
+                            </Link>
+                        </div>
+                        :
+                        <p className="text-2xl">Generating quiz...</p>
+                }
+            </div>
+        )
+    }
+
 
     return (
         <div className="bg-bg w-full h-full flex flex-col items-center">
@@ -97,7 +159,7 @@ export default function Quiz({ quizData, onQuizFinished }: QuizProps) {
                 </p>
 
                 <button
-                    className={`${questionCompleted? "" : "invisible"} w-full p-4 rounded-xl border-2 border-border bg-primary-500 hover:bg-primary-600 active:bg-primary-700`}
+                    className={`${questionCompleted ? "" : "invisible"} w-full p-4 rounded-xl border-2 border-border bg-primary-500 hover:bg-primary-600 active:bg-primary-700`}
                     onClick={showNextQuestion}
                 >
                     {currentIndex >= quizData.allQuestions.length - 1 ? "See Result" : "Next"}
