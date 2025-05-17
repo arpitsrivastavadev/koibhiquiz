@@ -34,7 +34,7 @@ function App() {
 
     return (
         <div className={`${theme} font-poppins bg-bg text-text w-full h-screen`}>
-            <Header setTheme={setTheme} />
+            <Header theme={theme} setTheme={setTheme} />
 
             <Routes>
                 <Route path="/" element={<Home />} />
