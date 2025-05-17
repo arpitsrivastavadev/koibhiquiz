@@ -12,10 +12,21 @@ export const AppThemes = ["light", "dark"] as const
 export type AppTheme = typeof AppThemes[number]
 
 
+const getSystemTheme = (): "light" | "dark" => {
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
+}
+
+
 function App() {
     const [theme, setTheme] = useState<AppTheme>(() => {
-        const saved = localStorage.getItem("theme")
-        return (saved as AppTheme) || "light"
+        const savedTheme = localStorage.getItem("theme")
+
+        if (savedTheme) {
+            return savedTheme as AppTheme
+        }
+        else {
+            return getSystemTheme()
+        }
     })
 
     const [result, setResult] = useState<ResultProps | null>(null)
