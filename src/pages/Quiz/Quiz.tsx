@@ -159,7 +159,7 @@ export default function Quiz({ onQuizFinished }: QuizProps) {
                 </p>
 
                 <button
-                    className={`${questionCompleted ? "" : "invisible"} w-full p-4 rounded-xl border-2 border-border bg-primary-500 hover:bg-primary-600 active:bg-primary-700`}
+                    className={`${questionCompleted ? "" : "invisible"} w-full p-4 rounded-xl text-button-special-text disabled:text-button-special-text-disabled bg-button-special-500 hover:bg-button-special-600 active:bg-button-special-700 disabled:bg-button-special-disabled`}
                     onClick={showNextQuestion}
                 >
                     {currentIndex >= quizData.allQuestions.length - 1 ? "See Result" : "Next"}

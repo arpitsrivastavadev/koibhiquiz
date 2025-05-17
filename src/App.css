@@ -39,6 +39,15 @@
     /* === Shadows === */
     --shadow-default: 0 1px 3px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    /* Special Buttons */
+    --color-button-special-500: rgb(59, 130, 246);
+    --color-button-special-600: rgb(37, 99, 235);
+    --color-button-special-700: rgb(29, 78, 216);
+    --color-button-special-disabled: rgb(191, 219, 254);
+
+    --color-button-special-text: rgb(255, 255, 255);
+    --color-button-special-text-disabled: rgba(255, 255, 255, 0.6);
 }
 
 
@@ -69,5 +78,13 @@
 
     --shadow-default: 0 1px 3px rgba(0, 0, 0, 0.4);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+
+    --color-button-special-500: rgb(68, 72, 191);
+    --color-button-special-600: rgb(58, 62, 174);
+    --color-button-special-700: rgb(50, 54, 153);
+    --color-button-special-disabled: rgb(45, 39, 135);
+
+    --color-button-special-text: rgb(255, 255, 255);
+    --color-button-special-text-disabled: rgba(255, 255, 255, 0.4);
   }
 }

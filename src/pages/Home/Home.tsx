@@ -33,7 +33,7 @@ export default function Home() {
                 />
 
                 <button
-                    className="sm:p-6 p-4 flex justify-center items-center gap-4 rounded-xl bg-primary-500 hover:bg-primary-600 active:bg-primary-700 disabled:bg-bg-muted disabled:text-text-muted disabled:cursor-not-allowed"
+                    className="sm:p-6 p-4 flex justify-center items-center gap-4 rounded-xl text-button-special-text disabled:text-button-special-text-disabled bg-button-special-500 hover:bg-button-special-600 active:bg-button-special-700 disabled:bg-button-special-disabled disabled:cursor-not-allowed"
                 >
                     <FiSend
                         size={18}
