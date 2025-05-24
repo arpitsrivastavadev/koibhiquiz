@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import type { AppTheme } from "../App"
 import { LuMoon, LuSun } from "react-icons/lu"
+import { FaSignInAlt, FaUserPlus } from "react-icons/fa"
 
 type HeaderProps = {
     theme: AppTheme
@@ -30,6 +31,23 @@ export default function Header({ theme, setTheme }: HeaderProps) {
                     <LuMoon />
                 </button>
             </div>
+
+            <div className="auth flex justify-center items-center">
+                <Link
+                    to="/login"
+                    className="p-4"
+                >
+                    <FaSignInAlt size={24} />
+                </Link>
+
+                <Link
+                    to="/signup"
+                    className="p-4"
+                >
+                    <FaUserPlus size={24} />
+                </Link>
+            </div>
+
         </div>
     )
 }

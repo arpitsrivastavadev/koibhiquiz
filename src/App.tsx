@@ -6,6 +6,8 @@ import Header from './components/Header'
 import NotFound from './pages/NotFound/NotFound'
 import Quiz from './pages/Quiz/Quiz'
 import Result, { type ResultProps } from './pages/Quiz/components/Result'
+import Signup from './pages/Auth/Signup'
+import Login from './pages/Auth/Login'
 
 
 export const AppThemes = ["light", "dark"] as const
@@ -49,6 +51,8 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/quiz" element={<Quiz onQuizFinished={onQuizFinished} />} />
                 <Route path="/result" element={<Result total={result?.total || 0} correct={result?.correct || 0} />} />
                 <Route path="*" element={<NotFound />} />
