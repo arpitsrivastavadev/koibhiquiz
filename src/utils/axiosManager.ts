@@ -33,8 +33,7 @@ apiProtected.interceptors.response.use(res => res, async (err) => {
         originalRequest._retry = true
 
         try {
-            // Use axios itself to avoid having an interceptor in the process
-            const response = await axios.post("/api/refresh", null, { withCredentials: true })
+            const response = await apiProtected.post("/api/refresh", null)
 
             // Update access token and user information
             const { accessToken, user } = response.data
