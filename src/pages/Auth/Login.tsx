@@ -1,8 +1,11 @@
 import { useState, type FormEvent } from "react"
 import { useNavigate } from "react-router-dom"
+import { api } from "../../utils/axiosManager"
+import { useAuth } from "../../contexts/AuthContext/AuthContext"
 
 export default function Login() {
     const navigate = useNavigate()
+    const { setAccessToken, setUser } = useAuth()
 
     const [step, setStep] = useState<"sendOtp" | "verifyOtp">("sendOtp")
     const [busy, setBusy] = useState<boolean>(false)
@@ -25,7 +28,7 @@ export default function Login() {
         setErrors({})
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000))
+            await api.post("/api/login-send-otp", { email })
 
             setStep("verifyOtp")
         }
@@ -51,7 +54,10 @@ export default function Login() {
         setErrors({})
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000))
+            const response = await api.post("/api/verify-otp", { email, otp }, { withCredentials: true })
+
+            setAccessToken(response.data.accessToken)
+            setUser(response.data.user)
 
             navigate("/")
         }

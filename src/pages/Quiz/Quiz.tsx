@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
-import { ENVS } from "../../utils/config";
+import { api } from "../../utils/axiosManager";
 
 
 export type QuizProps = {
@@ -55,7 +54,7 @@ export default function Quiz({ onQuizFinished }: QuizProps) {
             setError(null)
 
             try {
-                const response = await axios.post(`${ENVS.BACKEND_URL}/api/quiz`, {
+                const response = await api.post("/api/quiz", {
                     prompt: prompt
                 })
 

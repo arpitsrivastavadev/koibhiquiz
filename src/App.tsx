@@ -8,6 +8,7 @@ import Quiz from './pages/Quiz/Quiz'
 import Result, { type ResultProps } from './pages/Quiz/components/Result'
 import Signup from './pages/Auth/Signup'
 import Login from './pages/Auth/Login'
+import { AuthProvider } from './contexts/AuthContext/AuthContext'
 
 
 export const AppThemes = ["light", "dark"] as const
@@ -43,21 +44,23 @@ function App() {
     const onQuizFinished = (data: ResultProps) => {
         setResult(data)
     }
-    
+
 
     return (
-        <div className={`${theme} font-poppins bg-bg text-text w-full h-screen`}>
-            <Header theme={theme} setTheme={setTheme} />
+        <AuthProvider>
+            <div className={`${theme} font-poppins bg-bg text-text w-full h-screen`}>
+                <Header theme={theme} setTheme={setTheme} />
 
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/quiz" element={<Quiz onQuizFinished={onQuizFinished} />} />
-                <Route path="/result" element={<Result total={result?.total || 0} correct={result?.correct || 0} />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
-        </div>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/quiz" element={<Quiz onQuizFinished={onQuizFinished} />} />
+                    <Route path="/result" element={<Result total={result?.total || 0} correct={result?.correct || 0} />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </div>
+        </AuthProvider>
     )
 }
 
