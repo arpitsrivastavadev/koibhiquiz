@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { api } from "../../utils/axiosManager";
+import { api, getAxiosErrorMessage } from "../../utils/axiosManager";
 
 
 export type QuizProps = {
@@ -64,8 +64,8 @@ export default function Quiz({ onQuizFinished }: QuizProps) {
 
                 setQuizData(qData)
             }
-            catch (e) {
-                const errMsg: string = e instanceof Error ? e.message : String(e)
+            catch (err) {
+                const errMsg: string = getAxiosErrorMessage(err)
                 setError(errMsg)
             }
         }

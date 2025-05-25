@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ENVS } from "./config";
 import { getAuthContext } from "../contexts/AuthContext/getAuthContext";
 
@@ -58,3 +58,26 @@ apiProtected.interceptors.response.use(res => res, async (err) => {
 
     return Promise.reject(err)
 })
+
+
+// Get axios error message
+export const getAxiosErrorMessage = (error: unknown): string => {
+    if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as AxiosError<{ message?: string }>
+
+        // Check for backend provided message
+        const backendMessage = axiosError.response?.data?.message
+        if (backendMessage)
+            return backendMessage
+
+        // Fallback to generic axios error message
+        return axiosError.message || "An unknown error occurred"
+    }
+
+    // If it's native JS error
+    if (error instanceof Error) {
+        return error.message
+    }
+
+    return "An unknown error occurred"
+}

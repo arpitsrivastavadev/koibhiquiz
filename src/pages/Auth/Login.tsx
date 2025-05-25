@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react"
 import { useNavigate } from "react-router-dom"
-import { api } from "../../utils/axiosManager"
+import { api, getAxiosErrorMessage } from "../../utils/axiosManager"
 import { useAuth } from "../../contexts/AuthContext/AuthContext"
 
 export default function Login() {
@@ -33,7 +33,7 @@ export default function Login() {
             setStep("verifyOtp")
         }
         catch (err) {
-            const errMessage = err instanceof Error ? err.message : "Unknown error"
+            const errMessage = getAxiosErrorMessage(err)
             console.error("Error:", errMessage)
 
             setErrors(prev => ({
@@ -62,7 +62,7 @@ export default function Login() {
             navigate("/")
         }
         catch (err) {
-            const errMessage = err instanceof Error ? err.message : "Unknown error"
+            const errMessage = getAxiosErrorMessage(err)
             console.error("Error:", errMessage)
 
             setErrors(prev => ({
