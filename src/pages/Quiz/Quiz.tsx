@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { api, getAxiosErrorMessage } from "../../utils/axiosManager";
+import { apiProtected, getAxiosErrorMessage } from "../../utils/axiosManager";
 
 
 export type QuizProps = {
@@ -54,7 +54,7 @@ export default function Quiz({ onQuizFinished }: QuizProps) {
             setError(null)
 
             try {
-                const response = await api.post("/api/quiz", {
+                const response = await apiProtected.post("/api/quiz", {
                     prompt: prompt
                 })
 
