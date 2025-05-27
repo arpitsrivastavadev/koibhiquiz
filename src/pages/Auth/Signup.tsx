@@ -56,7 +56,7 @@ export default function Signup() {
         setErrors({})
 
         try {
-            const response = await api.post("/api/verify-otp", { email, username, otp })
+            const response = await api.post("/api/verify-otp", { email, username, otp }, { withCredentials: true })
             
             setAccessToken(response.data.accessToken)
             setUser(response.data.user)

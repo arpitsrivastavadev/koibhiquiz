@@ -3,6 +3,7 @@ import type { AppTheme } from "../App"
 import { LuMoon, LuSun } from "react-icons/lu"
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa"
 import { useAuth } from "../contexts/AuthContext/AuthContext"
+import UserDropdown from "./UserDropdown"
 
 type HeaderProps = {
     theme: AppTheme
@@ -37,11 +38,7 @@ export default function Header({ theme, setTheme }: HeaderProps) {
 
             {
                 user ?
-                    <div>
-                        <button className="p-4 hover:cursor-pointer">
-                            {user.firstName || user.username}
-                        </button>
-                    </div>
+                    <UserDropdown user={user} />
                     :
                     <div className="auth flex justify-center items-center">
                         <Link

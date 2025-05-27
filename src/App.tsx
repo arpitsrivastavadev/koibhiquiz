@@ -1,14 +1,15 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import Home from './pages/Home/Home'
 import { useEffect, useState } from 'react'
+import { AuthProvider } from './contexts/AuthContext/AuthContext'
+import Home from './pages/Home/Home'
 import Header from './components/Header'
 import NotFound from './pages/NotFound/NotFound'
 import Quiz from './pages/Quiz/Quiz'
 import Result, { type ResultProps } from './pages/Quiz/components/Result'
 import Signup from './pages/Auth/Signup'
 import Login from './pages/Auth/Login'
-import { AuthProvider } from './contexts/AuthContext/AuthContext'
+import Profile from './pages/Profile/Profile'
 
 
 export const AppThemes = ["light", "dark"] as const
@@ -57,6 +58,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/quiz" element={<Quiz onQuizFinished={onQuizFinished} />} />
                     <Route path="/result" element={<Result total={result?.total || 0} correct={result?.correct || 0} />} />
+                    <Route path="/profile" element={<Profile />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
