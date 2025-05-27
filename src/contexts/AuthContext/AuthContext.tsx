@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { setAuthContext } from "./getAuthContext"
+import { apiProtected, getAxiosErrorMessage } from "../../utils/axiosManager"
 
 
 export type User = {
@@ -24,6 +25,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [accessToken, setAccessToken] = useState<string | null>(null)
     const [user, setUser] = useState<User | null>(null)
+
+
+    useEffect(() => {
+        const getStatus = async () => {
+            try {
+                await apiProtected.get("/api/status")
+            }
+            catch (err) {
+                const errMessage = getAxiosErrorMessage(err)
+                console.error("Error:", errMessage)
+            }
+        }
+
+        getStatus()
+
+    }, [])
 
 
     useEffect(() => {

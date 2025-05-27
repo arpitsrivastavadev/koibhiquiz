@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import type { AppTheme } from "../App"
 import { LuMoon, LuSun } from "react-icons/lu"
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa"
+import { useAuth } from "../contexts/AuthContext/AuthContext"
 
 type HeaderProps = {
     theme: AppTheme
@@ -9,6 +10,8 @@ type HeaderProps = {
 }
 
 export default function Header({ theme, setTheme }: HeaderProps) {
+    const { user } = useAuth()
+
     return (
         <div className="flex justify-between items-center bg-primary-500 p-4">
 
@@ -32,22 +35,30 @@ export default function Header({ theme, setTheme }: HeaderProps) {
                 </button>
             </div>
 
-            <div className="auth flex justify-center items-center">
-                <Link
-                    to="/login"
-                    className="p-4"
-                >
-                    <FaSignInAlt size={24} />
-                </Link>
+            {
+                user ?
+                    <div>
+                        <button className="p-4 hover:cursor-pointer">
+                            {user.firstName || user.username}
+                        </button>
+                    </div>
+                    :
+                    <div className="auth flex justify-center items-center">
+                        <Link
+                            to="/login"
+                            className="p-4"
+                        >
+                            <FaSignInAlt size={24} />
+                        </Link>
 
-                <Link
-                    to="/signup"
-                    className="p-4"
-                >
-                    <FaUserPlus size={24} />
-                </Link>
-            </div>
-
+                        <Link
+                            to="/signup"
+                            className="p-4"
+                        >
+                            <FaUserPlus size={24} />
+                        </Link>
+                    </div>
+            }
         </div>
     )
 }
