@@ -25,7 +25,7 @@ apiProtected.interceptors.request.use(config => {
 })
 
 
-// Get new access token and refresh token on 401
+// Get new access token and refresh token on 401/403
 apiProtected.interceptors.response.use(res => res, async (err) => {
     const originalRequest = err.config
 
@@ -33,7 +33,7 @@ apiProtected.interceptors.response.use(res => res, async (err) => {
         originalRequest._retry = true
 
         try {
-            const response = await apiProtected.post("/api/refresh", null)
+            const response = await axios.post(`${ENVS.BACKEND_URL}/api/refresh`, null, { withCredentials: true })
 
             // Update access token and user information
             const { accessToken, user } = response.data
