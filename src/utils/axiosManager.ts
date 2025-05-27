@@ -83,3 +83,14 @@ export const getAxiosErrorMessage = (error: unknown): string => {
 
     return "An unknown error occurred"
 }
+
+
+// Get axios error status
+export const getAxiosErrorStatus = (error: unknown): number | undefined => {
+    if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as AxiosError
+        return axiosError.response?.status
+    }
+
+    return undefined
+}

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react"
-import { useNavigate } from "react-router-dom"
-import { api, getAxiosErrorMessage } from "../../utils/axiosManager"
+import { Link, useNavigate } from "react-router-dom"
+import { api, getAxiosErrorMessage, getAxiosErrorStatus } from "../../utils/axiosManager"
 import { useAuth } from "../../contexts/AuthContext/AuthContext"
 
 export default function Login() {
@@ -9,6 +9,7 @@ export default function Login() {
 
     const [step, setStep] = useState<"sendOtp" | "verifyOtp">("sendOtp")
     const [busy, setBusy] = useState<boolean>(false)
+    const [userExist, setUserExist] = useState<boolean>(true)
     const [errors, setErrors] = useState<{
         sendOtp?: string
         verifyOtp?: string
@@ -25,6 +26,7 @@ export default function Login() {
         e.preventDefault()
 
         setBusy(true)
+        setUserExist(true)
         setErrors({})
 
         try {
@@ -34,12 +36,19 @@ export default function Login() {
         }
         catch (err) {
             const errMessage = getAxiosErrorMessage(err)
-            console.error("Error:", errMessage)
+            const status = getAxiosErrorStatus(err)
 
+            // Set error
+            console.error("Error:", errMessage)
             setErrors(prev => ({
                 ...prev,
                 sendOtp: errMessage
             }))
+
+            // Check if user exists or not
+            if (status === 404) {
+                setUserExist(false)
+            }
         }
         finally {
             setBusy(false)
@@ -106,6 +115,20 @@ export default function Login() {
                         errors.sendOtp && <p className="mt-4 px-6 text-error text-center">
                             {errors.sendOtp}
                         </p>
+                    }
+
+                    {
+                        userExist === false && (
+                            <p className="mt-4 px-6 text-center">
+                                Create an account
+                                <Link
+                                    className="ml-1 font-medium underline text-text hover:text-text-muted"
+                                    to="/signup"
+                                >
+                                    here
+                                </Link>
+                            </p>
+                        )
                     }
                 </form>
             </div>
