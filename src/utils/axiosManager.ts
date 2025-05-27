@@ -3,6 +3,9 @@ import { ENVS } from "./config";
 import { getAuthContext } from "../contexts/AuthContext/getAuthContext";
 
 
+export const SESSION_EXPIRED_ERROR_MESSAGE: string = "Session expired. Please log in again."
+
+
 export const api = axios.create({
     baseURL: ENVS.BACKEND_URL,
     withCredentials: false
@@ -51,7 +54,7 @@ apiProtected.interceptors.response.use(res => res, async (err) => {
             ctx.setAccessToken(null)
             ctx.setUser(null)
 
-            throw new Error("Session expired. Please log in again.")
+            throw new Error(SESSION_EXPIRED_ERROR_MESSAGE)
         }
     }
 

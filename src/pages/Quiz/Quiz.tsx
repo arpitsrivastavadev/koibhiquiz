@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { apiProtected, getAxiosErrorMessage } from "../../utils/axiosManager";
+import { apiProtected, getAxiosErrorMessage, SESSION_EXPIRED_ERROR_MESSAGE } from "../../utils/axiosManager";
 
 
 export type QuizProps = {
@@ -67,6 +67,12 @@ export default function Quiz({ onQuizFinished }: QuizProps) {
             catch (err) {
                 const errMsg: string = getAxiosErrorMessage(err)
                 setError(errMsg)
+
+                // A hacky approach, but doing it this way only for now
+                if (errMsg === SESSION_EXPIRED_ERROR_MESSAGE) {
+                    navigate("/login")
+                    return
+                }
             }
         }
 
