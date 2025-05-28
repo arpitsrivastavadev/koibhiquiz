@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
 import { Link, useNavigate } from "react-router-dom";
@@ -40,6 +40,7 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
 
     const [quizData, setQuizData] = useState<QuizData | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const promptSent = useRef<boolean>(false)
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [questionCompleted, setQuestionCompleted] = useState<boolean>(false)
@@ -51,6 +52,11 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
 
     useEffect(() => {
         const generateQuiz = async () => {
+            // Have to do this as React runs useEffect twice in dev mode
+            if (promptSent.current) return
+            promptSent.current = true
+
+            // Generate quiz based on the prompt
             setError(null)
 
             try {
