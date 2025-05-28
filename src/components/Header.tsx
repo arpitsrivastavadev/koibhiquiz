@@ -17,7 +17,7 @@ export default function Header({ theme, setTheme }: HeaderProps) {
         <div className="flex justify-between items-center bg-primary-500 p-4">
 
             <Link to="/">
-                <h1 className="text-2xl text-center">Kuch Bhi Quiz</h1>
+                <h1 className="text-2xl text-center">Koi Bhi Quiz</h1>
             </Link>
 
             <div className="flex gap-3">
