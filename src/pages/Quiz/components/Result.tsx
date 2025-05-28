@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { apiProtected, getAxiosErrorMessage } from "../../../utils/axiosManager"
 import { useAuth } from "../../../contexts/AuthContext/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 
 export type ResultProps = {
@@ -11,6 +12,7 @@ export type ResultProps = {
 
 
 export default function Result({ sessionId, total, correct }: ResultProps) {
+    const navigate = useNavigate()
     const { user } = useAuth()
 
     const [saving, setSaving] = useState<boolean>(true)
@@ -42,6 +44,9 @@ export default function Result({ sessionId, total, correct }: ResultProps) {
         }
         else {
             setSaving(false)
+
+            if (total === 0)
+                navigate("/")
         }
 
     }, [])
@@ -61,7 +66,14 @@ export default function Result({ sessionId, total, correct }: ResultProps) {
         <div className="bg-bg w-full h-full flex flex-col items-center">
             <div className="sm:w-[60%] w-[80%] h-full flex flex-col gap-6 justify-center items-center">
                 <p>{`Stats: ${correct}/${total}`}</p>
-                <p>{`Completion: ${parseFloat((correct/total * 100).toFixed(1))}%`}</p>
+                <p>{`Completion: ${parseFloat((correct / total * 100).toFixed(1))}%`}</p>
+
+                <button
+                    className="w-[80%] p-4 mt-4 flex justify-center items-center gap-4 rounded-xl text-button-special-text disabled:text-button-special-text-disabled bg-button-special-500 hover:bg-button-special-600 active:bg-button-special-700 disabled:bg-button-special-disabled disabled:cursor-not-allowed"
+                    onClick={() => navigate("/")}
+                >
+                    Continue
+                </button>
             </div>
         </div>
     )
