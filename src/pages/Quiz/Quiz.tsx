@@ -45,6 +45,7 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [questionCompleted, setQuestionCompleted] = useState<boolean>(false)
     const [correctCount, setCorrectCount] = useState<number>(0)
+    const [sessionId, setSessionId] = useState<string>("")
 
 
     const currentQuiz = quizData?.allQuestions[currentIndex] || null
@@ -69,6 +70,8 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
                 }
 
                 setQuizData(qData)
+
+                setSessionId(response.data.sessionId)
             }
             catch (err) {
                 const errMsg: string = getAxiosErrorMessage(err)
@@ -114,6 +117,7 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
 
         if (currentIndex >= quizData!.allQuestions.length - 1) {
             onQuizFinished({
+                sessionId: sessionId,
                 total: quizData!.allQuestions.length,
                 correct: correctCount
             })

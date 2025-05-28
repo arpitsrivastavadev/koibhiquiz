@@ -58,7 +58,7 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/quiz" element={<Quiz prompt={prompt} onQuizFinished={onQuizFinished} />} />
-                    <Route path="/result" element={<Result total={result?.total || 0} correct={result?.correct || 0} />} />
+                    <Route path="/result" element={<Result sessionId={result?.sessionId || ""} total={result?.total || 0} correct={result?.correct || 0} />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
