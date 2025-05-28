@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiProtected, getAxiosErrorMessage, SESSION_EXPIRED_ERROR_MESSAGE } from "../../utils/axiosManager";
 
 
 export type QuizProps = {
+    prompt: string
     onQuizFinished: (data: ResultProps) => void
 }
 
@@ -22,11 +23,9 @@ export type QuizQuestionData = {
 }
 
 
-export default function Quiz({ onQuizFinished }: QuizProps) {
+export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
     const navigate = useNavigate()
-    const [searchParams] = useSearchParams()
 
-    const [prompt, setPrompt] = useState<string>("")
     const [quizData, setQuizData] = useState<QuizData | null>(null)
     const [error, setError] = useState<string | null>(null)
 
@@ -36,17 +35,6 @@ export default function Quiz({ onQuizFinished }: QuizProps) {
 
 
     const currentQuiz = quizData?.allQuestions[currentIndex] || null
-
-
-    useEffect(() => {
-        if (searchParams.get("prompt")) {
-            setPrompt(searchParams.get("prompt")!)
-        }
-        else {
-            setError("Unable to generate quiz, no prompt found.")
-        }
-
-    }, [searchParams])
 
 
     useEffect(() => {
@@ -76,10 +64,14 @@ export default function Quiz({ onQuizFinished }: QuizProps) {
             }
         }
 
-        if (prompt !== "")
+        if (prompt === "") {
+            navigate("/")
+        }
+        else {
             generateQuiz()
+        }
 
-    }, [prompt])
+    }, [])
 
 
     const isChoiceCorrect = (choice: string): boolean => {

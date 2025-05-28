@@ -33,6 +33,7 @@ function App() {
         }
     })
 
+    const [prompt, setPrompt] = useState<string>("")
     const [result, setResult] = useState<ResultProps | null>(null)
 
 
@@ -53,10 +54,10 @@ function App() {
                 <Header theme={theme} setTheme={setTheme} />
 
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Home prompt={prompt} setPrompt={setPrompt} />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/quiz" element={<Quiz onQuizFinished={onQuizFinished} />} />
+                    <Route path="/quiz" element={<Quiz prompt={prompt} onQuizFinished={onQuizFinished} />} />
                     <Route path="/result" element={<Result total={result?.total || 0} correct={result?.correct || 0} />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="*" element={<NotFound />} />

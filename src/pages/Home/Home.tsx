@@ -1,18 +1,20 @@
-import { useState } from "react"
 import { FiSend } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 
 
-export default function Home() {
-    const navigate = useNavigate()
+type HomeProps = {
+    prompt: string
+    setPrompt: (prompt: string) => void
+}
 
-    const [prompt, setPrompt] = useState<string>("")
+
+export default function Home({ prompt, setPrompt }: HomeProps) {
+    const navigate = useNavigate()
 
 
     const handleStartQuiz = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
-        navigate(`/quiz?prompt=${prompt}`)
+        navigate(`/quiz`)
     }
 
 
