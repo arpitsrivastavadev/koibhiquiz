@@ -23,6 +23,18 @@ export type QuizQuestionData = {
 }
 
 
+const getQuizGenerationMessage = (): string => {
+    const messages: string[] = [
+        "Cooking up your quiz...",
+        "Brewing your quiz, almost ready!",
+        "Hang tight, your quiz is on its way!"
+    ]
+
+    const randIndex: number = Math.floor(Math.random() * messages.length)
+    return messages[randIndex]
+}
+
+
 export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
     const navigate = useNavigate()
 
@@ -123,7 +135,10 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
                             </Link>
                         </div>
                         :
-                        <p className="text-2xl">Generating quiz...</p>
+                        <div className="flex flex-col items-center justify-center gap-4 p-8">
+                            <div className="text-5xl animate-bounce">🤔</div>
+                            <p className="text-2xl text-center font-semibold text-text animate-pulse">{getQuizGenerationMessage()}</p>
+                        </div>
                 }
             </div>
         )
