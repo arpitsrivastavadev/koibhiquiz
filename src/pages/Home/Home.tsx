@@ -60,6 +60,7 @@ export default function Home({ prompt, setPrompt }: HomeProps) {
                     <button
                         className="absolute sm:px-3 sm:inset-y-3 sm:right-3.5 px-2 inset-y-2 right-2.5 rounded-xl text-text disabled:text-text-muted bg-primary-500 hover:bg-primary-600 active:bg-primary-700 disabled:bg-bg-muted disabled:cursor-not-allowed"
                         type="button"
+                        title="Get Random Prompt"
                         disabled={fetchingPrompt}
                         onClick={getRandomPrompt}
                     >
@@ -74,6 +75,7 @@ export default function Home({ prompt, setPrompt }: HomeProps) {
 
                 <button
                     className="sm:p-6 sm:w-auto p-4 w-full flex justify-center items-center gap-4 rounded-xl text-button-special-text disabled:text-button-special-text-disabled bg-button-special-500 hover:bg-button-special-600 active:bg-button-special-700 disabled:bg-button-special-disabled disabled:cursor-not-allowed"
+                    title="Submit Prompt To Generate Quiz"
                 >
                     <FiSend
                         size={18}
