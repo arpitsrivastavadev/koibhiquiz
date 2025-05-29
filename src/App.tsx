@@ -10,6 +10,7 @@ import Result, { type ResultProps } from './pages/Quiz/components/Result'
 import Signup from './pages/Auth/Signup'
 import Login from './pages/Auth/Login'
 import Profile from './pages/Profile/Profile'
+import { trackEvent } from './utils/mixpanel'
 
 
 export const AppThemes = ["light", "dark"] as const
@@ -39,6 +40,10 @@ function App() {
 
     useEffect(() => {
         localStorage.setItem("theme", theme)
+
+        trackEvent("Page Theme Set", {
+            theme: theme
+        })
 
     }, [theme])
 

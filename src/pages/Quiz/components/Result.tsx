@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { apiProtected, getAxiosErrorMessage } from "../../../utils/axiosManager"
 import { useAuth } from "../../../contexts/AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
+import { trackEvent } from "../../../utils/mixpanel"
 
 
 export type ResultProps = {
@@ -48,6 +49,11 @@ export default function Result({ sessionId, total, correct }: ResultProps) {
             if (total === 0)
                 navigate("/")
         }
+
+        trackEvent("Quiz Result", {
+            total: total,
+            correct: correct
+        })
 
     }, [])
 

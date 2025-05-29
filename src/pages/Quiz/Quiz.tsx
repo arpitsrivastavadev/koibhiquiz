@@ -3,6 +3,7 @@ import Option from "./components/Option";
 import type { ResultProps } from "./components/Result";
 import { Link, useNavigate } from "react-router-dom";
 import { apiProtected, getAxiosErrorMessage, SESSION_EXPIRED_ERROR_MESSAGE } from "../../utils/axiosManager";
+import { trackEvent } from "../../utils/mixpanel";
 
 
 export type QuizProps = {
@@ -98,6 +99,11 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
     const isChoiceCorrect = (choice: string): boolean => {
         if (currentQuiz === null)
             return false
+
+        trackEvent("Option Selected", {
+            choice: choice,
+            answer: currentQuiz.answer
+        })
 
         return choice === currentQuiz.answer
     }

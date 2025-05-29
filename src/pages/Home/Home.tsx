@@ -3,6 +3,7 @@ import { FiSend, FiZap } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 import { api, getAxiosErrorMessage } from "../../utils/axiosManager"
 import { BiLoaderAlt } from "react-icons/bi"
+import { trackEvent } from "../../utils/mixpanel"
 
 
 type HomeProps = {
@@ -23,6 +24,10 @@ export default function Home({ prompt, setPrompt }: HomeProps) {
             const response = await api.get("/api/random-quiz-prompt")
             const randPrompt = response.data?.prompt || ""
             setPrompt(randPrompt)
+
+            trackEvent("Get Random Prompt", {
+                randomPrompt: randPrompt
+            })
         }
         catch (err) {
             const errMessage = getAxiosErrorMessage(err)
@@ -36,6 +41,11 @@ export default function Home({ prompt, setPrompt }: HomeProps) {
 
     const handleStartQuiz = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        trackEvent("Start Quiz", {
+            prompt: prompt
+        })
+
         navigate(`/quiz`)
     }
 
