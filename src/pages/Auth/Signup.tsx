@@ -83,7 +83,7 @@ export default function Signup() {
         return (
             <div className="w-full h-full flex justify-center items-center">
                 <form
-                    className="w-md flex flex-col gap-3"
+                    className="sm:w-[30%] w-[80%] flex flex-col gap-3"
                     onSubmit={handleSendOtp}
                 >
                     <input
