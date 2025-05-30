@@ -120,12 +120,12 @@ export default function Login() {
                     {
                         userExist === false && (
                             <p className="mt-4 px-6 text-center">
-                                Create an account
+                                Don't have an account yet?
                                 <Link
-                                    className="ml-1 font-medium underline text-text hover:text-text-muted"
+                                    className="ml-1 font-medium underline text-button-special-500 hover:text-button-special-600"
                                     to="/signup"
                                 >
-                                    here
+                                    Signup
                                 </Link>
                             </p>
                         )
