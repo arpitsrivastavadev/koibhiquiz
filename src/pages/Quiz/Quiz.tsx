@@ -4,6 +4,7 @@ import type { ResultProps } from "./components/Result";
 import { Link, useNavigate } from "react-router-dom";
 import { apiProtected, getAxiosErrorMessage, SESSION_EXPIRED_ERROR_MESSAGE } from "../../utils/axiosManager";
 import { trackEvent } from "../../utils/mixpanel";
+import { toast } from "sonner";
 
 
 export type QuizProps = {
@@ -80,6 +81,7 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
 
                 // A hacky approach, but doing it this way only for now
                 if (errMsg === SESSION_EXPIRED_ERROR_MESSAGE) {
+                    toast.warning("You can play maximum 5 quizzes a day as a guest. Login to play more!")
                     navigate("/login")
                     return
                 }

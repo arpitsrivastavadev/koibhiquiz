@@ -11,6 +11,7 @@ import Signup from './pages/Auth/Signup'
 import Login from './pages/Auth/Login'
 import Profile from './pages/Profile/Profile'
 import { trackEvent } from './utils/mixpanel'
+import { Toaster } from 'sonner'
 
 
 export const AppThemes = ["light", "dark"] as const
@@ -56,6 +57,12 @@ function App() {
     return (
         <AuthProvider>
             <div className={`${theme} font-poppins bg-bg text-text w-full h-screen`}>
+                <Toaster
+                    position="top-center"
+                    duration={5000}
+                    richColors
+                />
+
                 <Header theme={theme} setTheme={setTheme} />
 
                 <Routes>
