@@ -1,21 +1,18 @@
-import { useEffect, useRef, useState } from "react"
-import { api, getAxiosErrorMessage } from "../utils/axiosManager"
-import { useAuth } from "../contexts/AuthContext/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useRef, useState, type ReactNode } from "react"
+import { CgProfile } from "react-icons/cg"
 
 
 type UserDropdownProps = {
-    user: {
+    children?: ReactNode
+    user?: {
         username: string,
         firstName?: string
     }
+    closeTrigger: boolean
 }
 
 
-export default function UserDropdown({ user }: UserDropdownProps) {
-    const navigate = useNavigate()
-    const { setAccessToken, setUser } = useAuth()
-
+export default function UserDropdown({ children, user, closeTrigger }: UserDropdownProps) {
     const [open, setOpen] = useState<boolean>(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -34,28 +31,11 @@ export default function UserDropdown({ user }: UserDropdownProps) {
     }, [])
 
 
-    const handleProfile = () => {
-        navigate("/profile")
-
-        setOpen(false)
-    }
-
-
-    const handleLogout = async () => {
-        try {
-            await api.post("/api/logout", null, { withCredentials: true })
-
-            setAccessToken(null)
-            setUser(null)
-        }
-        catch (err) {
-            const errMessage = getAxiosErrorMessage(err)
-            console.error(errMessage)
-        }
-        finally {
+    useEffect(() => {
+        if (open)
             setOpen(false)
-        }
-    }
+
+    }, [closeTrigger])
 
 
     return (
@@ -64,28 +44,17 @@ export default function UserDropdown({ user }: UserDropdownProps) {
             ref={dropdownRef}
         >
             <button
-                className="p-4 hover:cursor-pointer"
+                className="p-1 hover:cursor-pointer flex flex-row gap-2 items-center justify-center"
                 onClick={() => setOpen(prev => !prev)}
             >
-                {user.firstName || user.username}
+                <CgProfile className="text-4xl" />
+                {user?.firstName || user?.username || ""}
             </button>
 
             {
                 open && (
                     <div className="absolute right-0 mt-2 w-40 bg-primary-500 shadow-lg z-10">
-                        <button
-                            className="block w-full px-4 py-2 text-left bg-primary-500 hover:bg-primary-600 active:bg-primary-700"
-                            onClick={handleProfile}
-                        >
-                            Profile
-                        </button>
-
-                        <button
-                            className="block w-full px-4 py-2 text-left bg-primary-500 hover:bg-primary-600 active:bg-primary-700"
-                            onClick={handleLogout}
-                        >
-                            Log Out
-                        </button>
+                        {children}
                     </div>
                 )
             }
