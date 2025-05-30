@@ -12,6 +12,7 @@ import Login from './pages/Auth/Login'
 import Profile from './pages/Profile/Profile'
 import { trackEvent } from './utils/mixpanel'
 import { Toaster } from 'sonner'
+import Footer from './components/Footer'
 
 
 export const AppThemes = ["light", "dark"] as const
@@ -74,6 +75,8 @@ function App() {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
+
+                <Footer />
             </div>
         </AuthProvider>
     )
