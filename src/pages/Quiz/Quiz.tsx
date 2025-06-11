@@ -102,19 +102,19 @@ export default function Quiz({ prompt, onQuizFinished }: QuizProps) {
         if (currentQuiz === null)
             return false
 
-        trackEvent("Option Selected", {
-            choice: choice,
-            answer: currentQuiz.answer
-        })
-
         return choice === currentQuiz.answer
     }
 
 
-    const onOptionSelected = (isCorrect: boolean): void => {
+    const onOptionSelected = (isCorrect: boolean, text: string): void => {
         if (isCorrect) {
             setCorrectCount(correctCount + 1)
         }
+
+        trackEvent("Option Selected", {
+            userChoice: text,
+            answer: currentQuiz!.answer
+        })
 
         setQuestionCompleted(true)
     }

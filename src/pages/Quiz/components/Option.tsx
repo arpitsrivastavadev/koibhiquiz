@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 type OptionProps = {
     text: string
     isChoiceCorrect: (choice: string) => boolean
-    onOptionSelected: (isCorrect: boolean) => void
+    onOptionSelected: (isCorrect: boolean, text: string) => void
     questionCompleted: boolean
 }
 
@@ -25,7 +25,7 @@ export default function Option({ text, isChoiceCorrect, onOptionSelected, questi
         const result: boolean = isChoiceCorrect(text)
 
         setOpState(result ? "right" : "wrong")
-        onOptionSelected(result)
+        onOptionSelected(result, text)
     }
 
 
